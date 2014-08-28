@@ -6,10 +6,6 @@ var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
 
 
-
-
-
-
 // Scripts
 gulp.task('scripts', function () {
     return gulp.src('app/scripts/app.js')
@@ -24,21 +20,6 @@ gulp.task('scripts', function () {
         .pipe($.connect.reload());
     });
 
-// React precomiler
-// gulp.task('jsx', function () {
-//     return gulp.src('app/scripts/**/*.jsx', {base: 'app/scripts'})
-//         .pipe($.react())
-//         .pipe($.jshint('.jshintrc'))
-//         .pipe($.jshint.reporter('default'))
-//         .pipe(gulp.dest('app/scripts'))
-//         .pipe($.size())
-//         .pipe($.connect.reload());
-//     });
-
-
-
-
-
 // HTML
 gulp.task('html', function () {
     return gulp.src('app/*.html')
@@ -46,6 +27,11 @@ gulp.task('html', function () {
         .pipe(gulp.dest('dist'))
         .pipe($.size())
         .pipe($.connect.reload());
+});
+
+gulp.task('styles', function () {
+    return gulp.src('app/styles/*.css')
+        .pipe(gulp.dest('dist/styles'))
 });
 
 // Images
@@ -105,7 +91,7 @@ gulp.task('json', function() {
 
 
 // Watch
-gulp.task('watch', ['html', 'bundle', 'connect'], function () {
+gulp.task('watch', ['html', 'styles', 'bundle', 'connect'], function () {
 
     // Watch .json files
     gulp.watch('app/scripts/**/*.json', ['json']);
@@ -113,7 +99,7 @@ gulp.task('watch', ['html', 'bundle', 'connect'], function () {
     // Watch .html files
     gulp.watch('app/*.html', ['html']);
 
-
+    gulp.watch('app/styles/*.css', ['styles']);
 
 
     // Watch .jsx files
