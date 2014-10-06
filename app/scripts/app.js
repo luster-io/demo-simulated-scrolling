@@ -1,19 +1,37 @@
 var Physics = require('impulse')
-  , listContainer = document.querySelector('.messages')
+  , listContainer = document.querySelector('.container')
   , height = window.innerHeight
   , boundry = new Physics.Boundry({
-  top: -($(listContainer).height() - window.innerHeight + 43),
-  bottom: 0,
+  top: 0,
+  bottom: (listContainer.scrollHeight),
   left: 0,
   right: 0
 })
 
-var scroller = new Physics(listContainer)
-  .style('translateY', function(x, y) { return y + 'px' })
-var drag = scroller.drag({ boundry: boundry, direction: 'vertical', damping: 0.5 })
+var top
+  , touching = false
+  , interaction
+var scroller = new Physics(function(x, y) {
+  console.log(y)
+})
 
-drag.on('end', function(evt) {
+listContainer.addEventListener('touchstart', function(evt) {
+  touching = true
+  interaction = scroller.interact()
+  interaction.start()
+})
+
+$(listContainer).scroll(function(evt) {
+  top = listContainer.scrollTop
+  interaction.position({ x: 0, y: top })
+})
+
+listContainer.addEventListener('touchend', function(evt) {
+  touching = true
+  interaction.end()
+
   var position = scroller.position().y
+    , end
 
   if(scroller.direction('up') || position < boundry.top)
     end = { x: 0, y: boundry.top }
