@@ -1,39 +1,21 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var Physics = require('impulse')
-  , listContainer = document.querySelector('.container')
+  , listContainer = document.querySelector('.messages')
   , height = window.innerHeight
   , boundry = new Physics.Boundry({
-  top: 0,
-  bottom: (listContainer.scrollHeight),
+  top: -($(listContainer).height() - window.innerHeight + 43),
+  bottom: 0,
   left: 0,
   right: 0
 })
 
-var top
-  , touching = false
-  , interaction
-var scroller = new Physics(function(x, y) {
-  console.log(y)
-})
+var scroller = new Physics(listContainer)
+  .style('translateY', function(x, y) { return y + 'px' })
+var drag = scroller.drag({ boundry: boundry, direction: 'vertical', damping: 0.5 })
 
-listContainer.addEventListener('touchstart', function(evt) {
-  touching = true
-  interaction = scroller.interact()
-  interaction.start()
-})
-
-$(listContainer).scroll(function(evt) {
-  top = listContainer.scrollTop
-  interaction.position({ x: 0, y: top })
-})
-
-listContainer.addEventListener('touchend', function(evt) {
-  touching = true
-  interaction.end()
-
+drag.on('end', function(evt) {
   var position = scroller.position().y
-    , end
 
   if(scroller.direction('up') || position < boundry.top)
     end = { x: 0, y: boundry.top }
@@ -49,8 +31,7 @@ listContainer.addEventListener('touchend', function(evt) {
     }
   }
 })
-
-}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_28d3013c.js","/")
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_7a231f09.js","/")
 },{"buffer":2,"impulse":13,"oMfpAn":5}],2:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 /*!
