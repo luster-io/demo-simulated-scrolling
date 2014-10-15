@@ -2,7 +2,7 @@
   "name": "spring-list",
   "version": "0.0.0",
   "dependencies": {
-    "impulse": "0.0.2",
+    "impulse": "0.0.x",
     "touch-velocity": "0.0.2"
   },
   "devDependencies": {
